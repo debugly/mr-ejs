@@ -1,0 +1,14 @@
+{
+  "name": "mr-ejs",
+  "version": "1.0.0",
+  "description": "my ejs demo",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js"
+  },
+  "author": "qianlongxu",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1"
+  }
+}

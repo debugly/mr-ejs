@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        html body {
+            margin: 0px;
+            padding: 0px;
+            background-color: bisque;
+        }
+
+        .header {
+            background-color: brown;
+            color: white;
+            /* 解决子元素H1的margin穿透父元素！！*/
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .contents {
+            list-style: none;
+            padding: 0 2rem;
+            overflow: hidden;
+            /* background-color: blueviolet; */
+        }
+
+        .contents .content {
+            /* background-color: blue; */
+            overflow: hidden;
+        }
+
+        .contents .desc {
+            border: 2px solid gray;
+            background-color: aquamarine;
+            margin: 1rem 2rem;
+        }
+
+        .contents .desc pre {
+            padding: 15px;
+            line-height: 1.7;
+            margin: 0px;
+            /* white-space: pre-wrap; */
+            word-wrap: break-word;
+            /* overflow-x: scroll; */
+        }
+
+        .footer {
+            border-top: 1px solid gray;
+            padding: 25px;
+            text-align: center;
+        }
+    </style>
+
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <%- include('componments/header') %>
+    <%- include('componments/contents') %>
+    <%- include('componments/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<% let i = 0;contents.forEach((content => { %>
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    <%=content.title %>
+                </h3>
+            </div>
+            <div class="desc">
+                <pre><%- content.desc %></pre>
+            </div>
+        </div>
+    </li>
+</ul>
+<% })); %>

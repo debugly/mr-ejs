@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        html body {
+            margin: 0px;
+            padding: 0px;
+            background-color: bisque;
+        }
+
+        .header {
+            background-color: brown;
+            color: white;
+            /* 解决子元素H1的margin穿透父元素！！*/
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .contents {
+            list-style: none;
+            padding: 0 2rem;
+            overflow: hidden;
+            /* background-color: blueviolet; */
+        }
+
+        .contents .content {
+            /* background-color: blue; */
+            overflow: hidden;
+        }
+
+        .contents .desc {
+            border: 2px solid gray;
+            background-color: aquamarine;
+            margin: 1rem 2rem;
+        }
+
+        .contents .desc pre {
+            padding: 15px;
+            line-height: 1.7;
+            margin: 0px;
+            /* white-space: pre-wrap; */
+            word-wrap: break-word;
+            /* overflow-x: scroll; */
+        }
+
+        .footer {
+            border-top: 1px solid gray;
+            padding: 25px;
+            text-align: center;
+        }
+    </style>
+
+    <title>
+        EJS Demo
+    </title>
+</head>
+
+<body>
+    <div class="header">
+    <h1>
+        EJS 入门
+    </h1>
+</div>
+    
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    1、安装
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>npm&nbsp;install&nbsp;ejs&nbsp;--save-dev</pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    2、使用
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>//需要将打印出来的HTML标签和特殊含义的字符转义才能正常显示出来，否则会被浏览器解析！<br/>data.contents&nbsp;=&nbsp;data.contents.map((content,&nbsp;index)&nbsp;=&gt;&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;title&nbsp;=&nbsp;(index&nbsp;+&nbsp;1)&nbsp;+&nbsp;'、'&nbsp;+&nbsp;content.title;<br/>&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;desc&nbsp;=&nbsp;content.desc;<br/>&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;=&nbsp;desc.replace(/&lt;/g,&nbsp;'&lt;');<br/>&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;=&nbsp;desc.replace(/&gt;/g,&nbsp;'&gt;');<br/>&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;=&nbsp;desc.replace(/\n/g,&nbsp;'&lt;br/&gt;');<br/>&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;=&nbsp;desc.replace(/&nbsp;/g,&nbsp;'&nbsp;');<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;{&nbsp;'title':&nbsp;title,&nbsp;'desc':&nbsp;desc&nbsp;};<br/>});<br/>//创建ejs然后渲染模板文件，并把我们的JSON数据传进去！<br/>const&nbsp;ejs&nbsp;=&nbsp;require('ejs');<br/>ejs.renderFile('template.ejs',&nbsp;data,&nbsp;(err,&nbsp;str)&nbsp;=&gt;&nbsp;{<br/>if(err)&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;console.error('模板渲染失败:'&nbsp;+&nbsp;err);<br/>}&nbsp;else&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;console.log('编译成功');<br/>}</pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    3、布局
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>//使用&nbsp;include&nbsp;指令导入其他&nbsp;ejs&nbsp;模板，相对路径即可，不需要带后缀名！<br/>&lt;%-&nbsp;include('componments/header')&nbsp;%&gt;<br/>&lt;%-&nbsp;include('componments/contents')&nbsp;%&gt;<br/>&lt;%-&nbsp;include('componments/footer')&nbsp;%&gt;<br/></pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    4、contents模板
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>//本Demo页面的内容模板如下:<br/>&lt;%&nbsp;contents.forEach((content&nbsp;=&gt;&nbsp;{&nbsp;%&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&nbsp;class=&nbsp;"contents"&nbsp;&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class="content"&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class="title"&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%=content.title&nbsp;%&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/h3&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class="desc"&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;pre&gt;&lt;%-&nbsp;content.desc&nbsp;%&gt;&lt;/pre&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br/>&lt;%&nbsp;}));&nbsp;%&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    5、美化
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>&lt;style&gt;<br/>&nbsp;&nbsp;&nbsp;&nbsp;html&nbsp;body&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin:&nbsp;0px;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding:&nbsp;0px;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color:&nbsp;bisque;<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.header&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color:&nbsp;brown;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color:&nbsp;white;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;解决子元素H1的margin穿透父元素！！*/<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow:&nbsp;hidden;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text-align:&nbsp;center;<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.contents&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list-style:&nbsp;none;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding:&nbsp;0&nbsp;2rem;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow:&nbsp;hidden;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;background-color:&nbsp;blueviolet;&nbsp;*/<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.contents.content&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;background-color:&nbsp;blue;&nbsp;*/<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow:&nbsp;hidden;<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.contents.desc&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border:&nbsp;2px&nbsp;solid&nbsp;gray;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color:&nbsp;aquamarine;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin:&nbsp;1rem&nbsp;2rem;<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.contents.desc&nbsp;pre&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding:&nbsp;15px;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line-height:&nbsp;1.7;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin:&nbsp;0px;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;word-wrap:&nbsp;break-word;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;overflow-x:&nbsp;scroll;&nbsp;*/<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;.footer&nbsp;{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border-top:&nbsp;1px&nbsp;solid&nbsp;gray;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding:&nbsp;25px;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text-align:&nbsp;center;<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&lt;/style&nbsp;&gt;</pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    6、参考
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>//编写这个demo时遇到了几个问题，解决方法如下:<br/>1.https://github.com/tj/ejs/issues/187<br/>2.https://stackoverflow.com/questions/31313920/html-br-tag-in-text-element-how-to-display-it-as-text<br/>3.https://stackoverflow.com/questions/17427713/how-to-write-out-html-entity-name-nbsp-lt-gt-etc<br/>4.https://www.jb51.net/css/75789.html<br/></pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ul class="contents">
+    <li>
+        <div class="content">
+            <div class="title">
+                <h3>
+                    7、后话
+                </h3>
+            </div>
+            <div class="desc">
+                <pre>本人的博客引擎使用的是Hexo，她也是使用&nbsp;EJS&nbsp;模板，突然有了一个闭门造车的想法，何不自己撸一个静态博客引擎呢，自娱自乐也好！</pre>
+            </div>
+        </div>
+    </li>
+</ul>
+
+    <div class="footer">
+    <span>
+        Author:
+        qianlong Xu
+    </span>
+    <span>©2018</span>
+</div>
+</body>
+
+</html>
