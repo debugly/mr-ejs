@@ -2,7 +2,7 @@
 
 My Fist EJS Study Demo.
 
-Visit: [https://debugly.cn/mr-ejs](https://debugly.cn/mr-ejs).
+Visit: [https://debugly.cn/mr-ejs](https://debugly.cn/mr-ejs/).
 
 # Dev
 
